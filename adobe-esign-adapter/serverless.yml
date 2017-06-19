@@ -11,17 +11,43 @@
 #
 # Happy Coding!
 
-#service: adobe-esign-adapter # NOTE: update this with your service name
-service: accela-esign-adapter
+service: azfx-node-http
 
 provider:
-  name: aws
-  runtime: nodejs4.3
+  name: azure
+  location: West US
+
+plugins:
+  - serverless-azure-functions
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - package.json
+    - .git/**
+
+functions:
+  hello:
+     handler: handler.hello
+     events:
+       - http: true
+         x-azure-settings:
+           authLevel: anonymous
+
+
+
+#service: adobe-esign-adapter # NOTE: update this with your service name
+#-------service: accela-esign-adapter
+
+#-------provider:
+#-------  name: aws
+#-------  runtime: nodejs4.3
 
 # you can overwrite defaults here
-  stage: prod
-  region: us-west-2
-  memorySize: 1024
+#-------  stage: prod
+#-------  region: us-west-2
+#-------  memorySize: 1024
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -37,11 +63,11 @@ provider:
 #          - ""
 #          - - "arn:aws:s3:::"
 #            - "Ref" : "ServerlessDeploymentBucket"
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "dynamodb:*"
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+#-------  iamRoleStatements:
+#-------    - Effect: "Allow"
+#-------      Action:
+#-------        - "dynamodb:*"
+#-------      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
 # you can add packaging information here
 #package:
@@ -49,17 +75,17 @@ provider:
 #    - exclude-me.js
 #  artifact: my-service-code.zip
 
-functions:
-  adobeEsignCallback:
-    handler: handler.esignCallback
-    timeout: 300
+#-------functions:
+#-------  adobeEsignCallback:
+#-------    handler: handler.esignCallback
+#-------    timeout: 300
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
-    events:
-      - http:
-          path: esign/callback
-          method: get
+#-------    events:
+#-------      - http:
+#-------          path: esign/callback
+#-------          method: get
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
 #      - sns: greeter-topic
