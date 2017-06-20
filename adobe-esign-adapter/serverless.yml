@@ -11,29 +11,17 @@
 #
 # Happy Coding!
 
-service: azfx-node-http
-
-provider:
-  name: azure
-  location: West US
-
-plugins:
-  - serverless-azure-functions
-
-package:
-  exclude:
-    - node_modules/**
-    - .gitignore
-    - package.json
-    - .git/**
-
 functions:
-  hello:
-     handler: handler.hello
-     events:
-       - http: true
-         x-azure-settings:
-           authLevel: anonymous
+  example:
+    handler: handler.hello
+    events:
+      - http: true
+        x-azure-settings:
+            name: req #<string>, default - "req", specifies which name it's available on `context.bindings`
+            methods: #<array> [GET, POST, PUT, DELETE], default - all
+                - GET
+            route: example/hello #<string>, default - <function name>
+            authLevel: anonymous #<enum - anonymous|function (default)|admin>
 
 
 
